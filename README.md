@@ -1,16 +1,16 @@
-# Desafio Python/Django Globoesporte
+# Resposta ao Desafio Python/Django Globoesporte
 
-Desenvolva uma aplicação para criar, editar e deletar enquetes.
+Esta é a resposta ao [desafio Python/Django](https://github.com/globoesporte/desafio-django) da equipe do (globoesporte.com)[https://github.com/globoesporte].
 
-Crie um fork desse projeto, e quando concluído, crie um pull request do seu fork para esse repositório.
+Sou Ricardo Sixel meu contato é rsixel@gmail.com e pelo [facebook](https://www.facebook.com/rsixel).
 
-Vamos avaliar a organização do seu código e automações então vale tomar esse cuidado
+## Resumo do desafio
 
-Não existe um tempo determinado pra executar o teste mas ele conta e é levado em concideração Tempo x bonus executados x qualidade do código.
+O desafio consiste em desenvolver uma aplicação para criar, editar e deletar enquetes.
 
 ---
 
-## Importamte
+## Importante
 
 - Seguir a convenção PEP8
 - Python 3.6
@@ -36,3 +36,12 @@ Testes unitários também são bem-vindos
 Rodando em ambiente docker e deploy em Heroku ou PythonAnywhere
 
 
+## Passos utilizados na solução
+
+- Foi utilizado Ubuntu 17 x64  e VS Code 1.20;
+- O *Python 3.6* já vem como default;
+- Instalei o PIP, utilizando o método descrito [aqui](https://askubuntu.com/questions/967886/unable-to-install-python-pip-in-ubuntu-17-10;);
+- Foi utilizado o *pyreqs* para gerar automaticamente o `requirements.txt`. Foi instalado usando :
+
+        # sudo pip install pipreqs
+- Utilizei o [guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
