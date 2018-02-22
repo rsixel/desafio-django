@@ -4,7 +4,14 @@ from django.template import loader
 from django.urls import reverse
 from django.views import generic
 
-from .models import Enquete
+
+from .models import Enquete, Resposta
+
+# Implementando os ENDPOINTS REST
+#
+from rest_framework import viewsets
+import django_filters.rest_framework
+from .serializers import EnqueteSerializer, RespostaSerializer
 
 
 class IndexView(generic.ListView):
@@ -45,3 +52,38 @@ def votar(request, enquete_id):
 
         return HttpResponseRedirect(
             reverse('enquetes:resultado', args=(enquete.id,)))
+
+
+# REST
+class EnqueteViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Enquetes to be viewed or edited.
+    """
+    queryset = Enquete.objects.all()
+    serializer_class = EnqueteSerializer
+
+    def get_permissions(self):
+
+        if self.action == 'list':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdmin]
+        return [permission() for permission in permission_classes]
+
+
+class RespostaViewSet(viewsets.ModelViewSet):
+    """
+    View used by Respostas API
+    """
+    queryset = Resposta.objects.all()
+    serializer_class = RespostaSerializer
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
+    filter_fields = ('votos', 'enquete_id')
+
+    def get_permissions(self):
+
+        if self.action == 'list':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdmin]
+        return [permission() for permission in permission_classes]
