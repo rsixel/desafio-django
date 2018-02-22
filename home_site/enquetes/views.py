@@ -1,28 +1,28 @@
-from django.http import HttpResponse
-from django.template import loader
-
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template import loader
+from django.urls import reverse
+from django.views import generic
 
 from .models import Enquete
 
 
-def index(request):
-    ultimas_enquetes = Enquete.objects.order_by('-texto')[:5]
-    template = loader.get_template('enquetes/index.html')
-    context = {
-        'ultimas_enquetes': ultimas_enquetes,
-    }
-    return HttpResponse(template.render(context, request))
+class IndexView(generic.ListView):
+    template_name = 'enquetes/index.html'
+    context_object_name = 'ultimas_enquetes'
+
+    def get_queryset(self):
+        return Enquete.objects.order_by('-texto')
 
 
-def detalhe(request, enquete_id):
-    enquete = get_object_or_404(Enquete, pk=enquete_id)
-    return render(request, 'enquetes/detalhe.html', {'enquete': enquete})
+class DetalheView(generic.DetailView):
+    model = Enquete
+    template_name = 'enquetes/detalhe.html'
 
 
-def resultado(request, enquete_id):
-    response = "You're looking at the results of resposta %s."
-    return HttpResponse(response % enquete_id)
+class ResultadoView(generic.DetailView):
+    model = Enquete
+    template_name = 'enquetes/resultado.html'
 
 
 def votar(request, enquete_id):
@@ -44,4 +44,4 @@ def votar(request, enquete_id):
         resposta_selecionada.save()
 
         return HttpResponseRedirect(
-            reverse('enquetes:resultados', args=(resposta.id,)))
+            reverse('enquetes:resultado', args=(enquete.id,)))
