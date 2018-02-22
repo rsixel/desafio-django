@@ -14,4 +14,4 @@ class Resposta(models.Model):
     votos = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.opcap
+        return self.opcao

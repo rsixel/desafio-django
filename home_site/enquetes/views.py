@@ -39,7 +39,8 @@ def votar(request, enquete_id):
             'error_message': "Você não selecionou nenhuma das opções.",
         })
     else:
-        resposta_selecionada.votes += 1
+        # TODO : Fila de votos
+        resposta_selecionada.votos += 1
         resposta_selecionada.save()
 
         return HttpResponseRedirect(
