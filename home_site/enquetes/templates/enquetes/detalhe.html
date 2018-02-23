@@ -4,7 +4,7 @@
 
 <form action="{% url 'enquetes:votar' enquete.id %}" method="post">
 {% csrf_token %}
-{% for resposta in enquete.resposta_set.all %}
+{% for resposta in enquete.respostas.all %}
     <input type="radio" name="resposta" id="resposta{{ forloop.counter }}" value="{{ resposta.id }}" />
     <label for="resposta{{ forloop.counter }}">{{ resposta.opcao }}</label><br />
 {% endfor %}

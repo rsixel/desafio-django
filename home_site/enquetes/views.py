@@ -62,14 +62,6 @@ class EnqueteViewSet(viewsets.ModelViewSet):
     queryset = Enquete.objects.all()
     serializer_class = EnqueteSerializer
 
-    def get_permissions(self):
-
-        if self.action == 'list':
-            permission_classes = [IsAuthenticated]
-        else:
-            permission_classes = [IsAdmin]
-        return [permission() for permission in permission_classes]
-
 
 class RespostaViewSet(viewsets.ModelViewSet):
     """
@@ -79,11 +71,3 @@ class RespostaViewSet(viewsets.ModelViewSet):
     serializer_class = RespostaSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('votos', 'enquete_id')
-
-    def get_permissions(self):
-
-        if self.action == 'list':
-            permission_classes = [IsAuthenticated]
-        else:
-            permission_classes = [IsAdmin]
-        return [permission() for permission in permission_classes]
