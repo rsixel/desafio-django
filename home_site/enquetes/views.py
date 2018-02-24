@@ -9,9 +9,11 @@ from .models import Enquete, Resposta
 
 # Implementando os ENDPOINTS REST
 #
-from rest_framework import viewsets
+from rest_framework import viewsets, response, status
+from rest_framework.views import APIView
 import django_filters.rest_framework
-from .serializers import EnqueteSerializer, RespostaSerializer
+
+from .serializers import *
 
 
 class IndexView(generic.ListView):
@@ -70,3 +72,37 @@ class RespostaViewSet(viewsets.ModelViewSet):
     queryset = Resposta.objects.all()
     serializer_class = RespostaSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
+
+
+class RespostasViewSet(viewsets.ModelViewSet):
+    """
+    View used by Respostas API
+    """
+    serializer_class = RespostasSerializer
+
+    def get_queryset(self):
+        return Enquete.objects.get(pk=self.kwargs['enquete_pk']).respostas
+
+    def create(self, request, enquete_pk):
+
+        serializer = RespostasSerializer(data=request.data,
+                                         context={'enquete_pk': enquete_pk})
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return response.Response(serializer.data,
+                                 status=status.HTTP_201_CREATED,
+                                 headers=headers)
+
+
+class VotoView(APIView):
+
+    def post(self, request, resposta_pk):
+        resposta = Resposta.objects.get(pk=resposta_pk)
+        resposta.voto += 1
+
+        resposta.save()
+
+        return response.Response({"votos": resposta.voto},
+                                 status=status.HTTP_201_CREATED,
+                                 headers=headers)

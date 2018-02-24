@@ -6,7 +6,7 @@ Sou Ricardo Sixel meu contato é rsixel@gmail.com e pelo [facebook](https://www.
 
 ## Resumo do desafio
 
-O desafio consiste em desenvolver uma aplicação para criar, editar e deletar enquetes.
+O desafio consiste em desenvolver uma aplicação para criar, editar e deletar enquete.
 
 ---
 
@@ -16,23 +16,24 @@ Para executar os endpoints abaixo deve ser declarado no header *Content-Type=app
 
 |Endpoint|Método|Descrição|Observação|
 |--------|------|---------|:----------:|
-|/api/enquetes|POST|Cria nova enquete com as respostas aninhadas.| Ignora os *id's*.
-|/api/enquetes|GET|Lista todas as enquetes. | |
-|/api/enquetes/\<id\>|GET|Retorna a Enquete pelo \<id\>. ||
-|/api/enquetes/\<id\>|PUT|Altera a Enquete pelo \<id\>. ||
-|/api/enquetes/\<id\>|DELETE|Exclui a Enquete pelo \<id\>. ||
-|/api/enquetes/\<id\>/respostas|GET|Retorna as Respostas da Enquete pelo \<id\>. ||
-|/api/enquetes/\<id\>/respostas|POST|Cria Respostas da Enquete dada por \<id\>. ||
-|/api/respostas/\<id\>|GET|Retorna a Respostas pelo \<id\>. | |
-|/api/respostas/\<id\>|PUT|Atualiza a Respostas pelo \<id\>. | |
-|/api/respostas/\<id\>|DELETE|Atualiza a Respostas pelo \<id\>. | |
-|/api/resposta/\<id\>/voto|POST|Gera um voto para a resposta a enquete|O corpo da mensagem deve ser vazio. Não precisa de autenticação |
+|/api/enquete|POST|Cria nova enquete com as respostas aninhadas.| Ignora os *id's*.
+|/api/enquete|GET|Lista todas as enquete. | |
+|/api/enquete/\<id\>|GET|Retorna a Enquete pelo \<id\>. ||
+|/api/enquete/\<id\>|PUT|Altera a Enquete pelo \<id\>. ||
+|/api/enquete/\<id\>|DELETE|Exclui a Enquete pelo \<id\>. ||
+|/api/enquete/\<id\>/respostas|GET|Retorna as Respostas da Enquete pelo \<id\>. ||
+|/api/enquete/\<id\>/respostas|POST|Cria Respostas da Enquete dada por \<id\>. ||
+|/api/resposta/|GET|Retorna a Lista de Respostas. | |
+|/api/resposta/\<id\>|GET|Retorna a Respostas pelo \<id\>. | |
+|/api/resposta/\<id\>|PUT|Atualiza a Resposta pelo \<id\>. | |
+|/api/resposta/\<id\>|DELETE|Atualiza a Resposta pelo \<id\>. | |
+|/api/resposta/\<id\>/voto|POST|Gera um voto para a Resposta à Enquete|O corpo da mensagem deve ser vazio. Não precisa de autenticação |
 <br>
 
 ### Exemplos de JSON:
 
 
-- __POST /api/enquetes:__
+- __POST /api/enquete:__
 
 Body do post:
 
@@ -47,12 +48,12 @@ Body do post:
 
 ```
 
-- __GET /api/enquetes:__
+- __GET /api/enquete:__
 
 Exemplo URL:
 
-`http://localhost:8000/enquetes/api/enquetes`
-`http://localhost:8000/enquetes/api/enquetes?ativa=true`
+`http://localhost:8000/enquete/api/enquete`
+`http://localhost:8000/enquete/api/enquete?ativa=true`
 
 
 Body de retorno (retorna as Respostas aninhadas):
@@ -103,12 +104,12 @@ Body de retorno (retorna as Respostas aninhadas):
 ```
 
 
-- __GET /api/enquetes/\<id\>/respostas:__
+- __GET /api/enquete/\<id\>/respostas:__
 
 
 Exemplo URL:
 
-`http://localhost:8000/enquetes/api/enquetes/1/repostas`
+`http://localhost:8000/enquete/api/enquete/1/repostas`
 
 Body de retorno (retorna as Respostas aninhadas):
 
