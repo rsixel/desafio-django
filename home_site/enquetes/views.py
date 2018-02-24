@@ -70,4 +70,3 @@ class RespostaViewSet(viewsets.ModelViewSet):
     queryset = Resposta.objects.all()
     serializer_class = RespostaSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-    filter_fields = ('votos', 'enquete_id')

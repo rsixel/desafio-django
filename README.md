@@ -10,31 +10,123 @@ O desafio consiste em desenvolver uma aplicação para criar, editar e deletar e
 
 ---
 
-## Importante
+## Endpoints REST
 
-- Seguir a convenção PEP8
-- Python 3.6
-- Django 1.11 ou superior
-- README com as instruções para rodar o projeto
-- Entregar [API REST](http://www.django-rest-framework.org/) com EndPoints POST, GET, PUT e DELETE
-- O EndPoint para salvar o voto é o unico que não é autenticado
-- Admin com campo para busca e filtros
-- Arquivo requirements.txt na raiz do projeto com todas as dependências
+Para executar os endpoints abaixo deve ser declarado no header *Content-Type=application/json* .
 
----
+|Endpoint|Método|Descrição|Parâmetro query string|
+|--------|------|---------|:----------:|
+|/api/enquetes|POST|Cria nova enquete com as respostas aninhadas.| N/A
+|/api/enquetes|GET|Lista todas as enquetes, | ativa=\[True\|False\]|
+|/api/enquetes/\<id\>|GET|Retorna a Enquete pelo \<id\>. |N/A|
+|/api/enquetes/\<id\>|PUT|Altera a Enquete pelo \<id\>. |N/A|
+|/api/enquetes/\<id\>|DELETE|Exclui a Enquete pelo \<id\>. |N/A|
+|/api/enquetes/\<id\>/respostas|GET|Retorna as Respostas da Enquete pelo \<id\>. |N/A|
+|/api/enquetes/\<id\>/respostas|POST|Cria Respostas da Enquete dada por \<id\>. |N/A|
+|/api/respostas/\<id\>|GET|Retorna a Respostas pelo \<id\>. | N/A|
+|/api/respostas/\<id\>|PUT|Atualiza a Respostas pelo \<id\>. | N/A|
+|/api/respostas/\<id\>|DELETE|Atualiza a Respostas pelo \<id\>. | N/A|
 
-## Bonus
+<br>
+### Exemplos de JSON:
 
-No save dos votos, podemos ter uma carga muito grande de votos. Para solucionar este problema, crie uma fila de votos na memória e descarregue no banco a cada 1 minuto.
 
-View Django template para a enquete (não precisa ficar bonito, mas não pode ser terrivelmente feio)
+- __POST /api/enquetes:__
 
-View Admin com dados interesantes sobre a enquete 
+Body do post:
 
-Testes unitários também são bem-vindos
+```json
+{"texto": "Qual a velocidade de uma andorinha?",
+ "respostas": [
+                { "opcao":"Andorinhas europeias?"},
+                {"opcao":"Andorinhas africanas?"},
+                {"opcao":"Ahhhhrg!"}  
+              ]
+ }
 
-Rodando em ambiente docker e deploy em Heroku ou PythonAnywhere
+```
 
+- __GET /api/enquetes:__
+
+Exemplo URL:
+
+`http://localhost:8000/enquetes/api/enquetes`
+`http://localhost:8000/enquetes/api/enquetes?ativa=true`
+
+
+Body de retorno (retorna as Respostas aninhadas):
+
+```json
+[
+        {       
+                "id":1,
+                "texto": "Qual a velocidade de uma andorinha?",
+                "ativa": true,
+                "respostas": [
+                { 
+                        "id": 1,
+                        "opcao": "Andorinhas europeias?",
+                        "votos": 0
+                },    
+                {       
+                        "id": 2,
+                        "opcao": "Andorinhas africanas?",
+                        "votos": 0
+                },
+                { 
+                        "id": 3,
+                        "opcao": "Ahhhhrggg!!",
+                        "votos": 0
+                }
+                ]
+        },
+
+        {
+                "id": 2,
+                "texto": "O sábio sabia que o sabiá sabia assobiar ?",
+                "ativa": true,
+                "respostas": [
+                {
+                        "id": 4,
+                        "opcao": "Sabia",
+                        "votos": 5,
+                },
+                {
+                        "id": 5,
+                        "opcao": "Não sabia",
+                        "votos": 4,
+                }
+                ]
+        }
+]
+```
+
+
+- __GET /api/enquetes/\<id\>/respostas:__
+
+
+Exemplo URL:
+
+`http://localhost:8000/enquetes/api/enquetes/1/repostas`
+
+Body de retorno (retorna as Respostas aninhadas):
+
+```json
+[
+        { "id": 1,
+        "opcao": "Andorinhas europeias?",
+        "votos": 0
+        },    
+        { "id": 2,
+        "opcao": "Andorinhas africanas?",
+        "votos": 0
+        },
+        { "id": 3,
+        "opcao": "Ahhhhrggg!!",
+        "votos": 0
+        }
+]
+```
 
 ## Passos utilizados na solução
 
@@ -44,4 +136,4 @@ Rodando em ambiente docker e deploy em Heroku ou PythonAnywhere
 - Foi utilizado o *pyreqs* para gerar automaticamente o `requirements.txt`. Foi instalado usando :
 
         # sudo pip install pipreqs
-- Utilizei o [guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
+- Foi utilizado o [guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
