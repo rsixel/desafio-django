@@ -16,8 +16,8 @@ Para executar os endpoints abaixo deve ser declarado no header *Content-Type=app
 
 |Endpoint|Método|Descrição|Observação|
 |--------|------|---------|:----------:|
-|/api/enquetes|POST|Cria nova enquete com as respostas aninhadas.| 
-|/api/enquetes|GET|Lista todas as enquetes, | |
+|/api/enquetes|POST|Cria nova enquete com as respostas aninhadas.| Ignora os *id's*.
+|/api/enquetes|GET|Lista todas as enquetes. | |
 |/api/enquetes/\<id\>|GET|Retorna a Enquete pelo \<id\>. ||
 |/api/enquetes/\<id\>|PUT|Altera a Enquete pelo \<id\>. ||
 |/api/enquetes/\<id\>|DELETE|Exclui a Enquete pelo \<id\>. ||
@@ -90,12 +90,12 @@ Body de retorno (retorna as Respostas aninhadas):
                 {
                         "id": 4,
                         "opcao": "Sabia",
-                        "votos": 5,
+                        "votos": 5
                 },
                 {
                         "id": 5,
                         "opcao": "Não sabia",
-                        "votos": 4,
+                        "votos": 4
                 }
                 ]
         }

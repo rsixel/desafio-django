@@ -31,6 +31,9 @@ class EnqueteSerializer(serializers.ModelSerializer):
         enquete = Enquete.objects.create(**validated_data)
 
         for item in respostas:
+
+            if 'id' in item:
+                item.pop('id')
             resposta = Resposta(enquete=enquete, **item)
             resposta.save()
 

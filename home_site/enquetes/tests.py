@@ -15,7 +15,8 @@ class EnquetesRESTTests(TestCase):
             "Qual a velocidade de uma andorinha?",
             "ativa": True,
             "respostas": [
-                {"opcao": "Andorinhas europeias?"},
+                {"id": 1000, "opcao":
+                 "Andorinhas europeias?"},
                 {"opcao": "Andorinhas africanas?"},
                 {"opcao": "Ahhhhrg!"}
             ]
