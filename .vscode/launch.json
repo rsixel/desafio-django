@@ -11,7 +11,7 @@
             "stopOnEntry": false,
             "pythonPath": "${config:python.pythonPath}",
             "program": "${workspaceFolder}/home_site/manage.py",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/home_site/",
             "args": [
                 "test"
             ],
