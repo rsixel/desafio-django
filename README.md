@@ -14,19 +14,19 @@ O desafio consiste em desenvolver uma aplicação para criar, editar e deletar e
 
 Para executar os endpoints abaixo deve ser declarado no header *Content-Type=application/json* .
 
-|Endpoint|Método|Descrição|Parâmetro query string|
+|Endpoint|Método|Descrição|Observação|
 |--------|------|---------|:----------:|
-|/api/enquetes|POST|Cria nova enquete com as respostas aninhadas.| N/A
-|/api/enquetes|GET|Lista todas as enquetes, | ativa=\[True\|False\]|
-|/api/enquetes/\<id\>|GET|Retorna a Enquete pelo \<id\>. |N/A|
-|/api/enquetes/\<id\>|PUT|Altera a Enquete pelo \<id\>. |N/A|
-|/api/enquetes/\<id\>|DELETE|Exclui a Enquete pelo \<id\>. |N/A|
-|/api/enquetes/\<id\>/respostas|GET|Retorna as Respostas da Enquete pelo \<id\>. |N/A|
-|/api/enquetes/\<id\>/respostas|POST|Cria Respostas da Enquete dada por \<id\>. |N/A|
-|/api/respostas/\<id\>|GET|Retorna a Respostas pelo \<id\>. | N/A|
-|/api/respostas/\<id\>|PUT|Atualiza a Respostas pelo \<id\>. | N/A|
-|/api/respostas/\<id\>|DELETE|Atualiza a Respostas pelo \<id\>. | N/A|
-
+|/api/enquetes|POST|Cria nova enquete com as respostas aninhadas.| 
+|/api/enquetes|GET|Lista todas as enquetes, | |
+|/api/enquetes/\<id\>|GET|Retorna a Enquete pelo \<id\>. ||
+|/api/enquetes/\<id\>|PUT|Altera a Enquete pelo \<id\>. ||
+|/api/enquetes/\<id\>|DELETE|Exclui a Enquete pelo \<id\>. ||
+|/api/enquetes/\<id\>/respostas|GET|Retorna as Respostas da Enquete pelo \<id\>. ||
+|/api/enquetes/\<id\>/respostas|POST|Cria Respostas da Enquete dada por \<id\>. ||
+|/api/respostas/\<id\>|GET|Retorna a Respostas pelo \<id\>. | |
+|/api/respostas/\<id\>|PUT|Atualiza a Respostas pelo \<id\>. | |
+|/api/respostas/\<id\>|DELETE|Atualiza a Respostas pelo \<id\>. | |
+|/api/resposta/\<id\>/voto|POST|Gera um voto para a resposta a enquete|O corpo da mensagem deve ser vazio. Não precisa de autenticação |
 <br>
 
 ### Exemplos de JSON:
