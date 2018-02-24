@@ -28,6 +28,7 @@ Para executar os endpoints abaixo deve ser declarado no header *Content-Type=app
 |/api/respostas/\<id\>|DELETE|Atualiza a Respostas pelo \<id\>. | N/A|
 
 <br>
+
 ### Exemplos de JSON:
 
 
