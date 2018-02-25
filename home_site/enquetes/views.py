@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.urls import reverse
 from django.views import generic
+from django.core.exceptions import ObjectDoesNotExist
 
 
 from .models import Enquete, Resposta
@@ -11,6 +12,7 @@ from .models import Enquete, Resposta
 #
 from rest_framework import viewsets, response, status
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 import django_filters.rest_framework
 
 from .serializers import *
@@ -78,15 +80,15 @@ class RespostasViewSet(viewsets.ModelViewSet):
     """
     View used by Respostas API
     """
-    serializer_class = RespostasSerializer
+    serializer_class = RespostaSerializer
 
     def get_queryset(self):
         return Enquete.objects.get(pk=self.kwargs['enquete_pk']).respostas
 
     def create(self, request, enquete_pk):
 
-        serializer = RespostasSerializer(data=request.data,
-                                         context={'enquete_pk': enquete_pk})
+        serializer = RespostaSerializer(data=request.data,
+                                        context={'enquete_pk': enquete_pk})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
@@ -95,14 +97,24 @@ class RespostasViewSet(viewsets.ModelViewSet):
                                  headers=headers)
 
 
-class VotoView(APIView):
+class VotoViewSet(viewsets.GenericViewSet):
 
-    def post(self, request, resposta_pk):
-        resposta = Resposta.objects.get(pk=resposta_pk)
-        resposta.voto += 1
+    permission_classes = [AllowAny]
 
-        resposta.save()
+    def create(self, request, resposta_pk):
+        try:
+            resposta = Resposta.objects.get(pk=resposta_pk)
+            resposta.votos += 1
 
-        return response.Response({"votos": resposta.voto},
-                                 status=status.HTTP_201_CREATED,
-                                 headers=headers)
+            resposta.save()
+
+            data = {"votos": resposta.votos}
+            headers = {}
+
+            return response.Response(data,
+                                     status=status.HTTP_201_CREATED,
+                                     headers=headers)
+        except ObjectDoesNotExist:
+            return response.Response({},
+                                     status=status.HTTP_404_NOT_FOUND,
+                                     headers={})

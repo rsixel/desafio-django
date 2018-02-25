@@ -2,7 +2,7 @@ from .models import Enquete, Resposta
 from rest_framework import serializers
 
 
-class RespostasSerializer(serializers.ModelSerializer):
+class RespostaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Resposta
@@ -20,27 +20,8 @@ class RespostasSerializer(serializers.ModelSerializer):
         return resposta
 
 
-class RespostaSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Resposta
-        fields = (
-            'id',
-            'opcao',
-            'votos',
-            'enquete_id'
-        )
-
-    def create(self, validated_data):
-
-        resposta = Resposta.objects.create(
-            enquete_id=self._context['enquete_pk'], **validated_data)
-
-        return resposta
-
-
 class EnqueteSerializer(serializers.ModelSerializer):
-    respostas = RespostasSerializer(many=True, read_only=False, required=False)
+    respostas = RespostaSerializer(many=True, read_only=False, required=False)
 
     class Meta:
         model = Enquete

@@ -271,20 +271,63 @@ class RespostassRESTAutenticadoDeveTests(BaseRESTDeveTests):
 # Não autenticado
 class RespostasRESTNAODeveTests(BaseRESTDeveTests):
 
-    def test_NAO_deve_criar_resposta_via_post_NAO_autenticado(self):
+    def setUp(self):
+        super().setUp()
 
+    def test_deve_criar_resposta_via_post_NAO_autenticado(self):
         response, resposta = self.criaResposta()
 
         self.assertEquals(response.status_code, 401)
 
-    def test_NAO_deve_retornar_lista_resposta_NAO_autenticado(self):
-        pass
+    def test_deve_retornar_lista_resposta_da_enquete_NAO_autenticado(self):
+        response, resposta = self.criaResposta()
 
-    def test_NAO_deve_retornar_resposta_pelo_id_NAO_autenticado(self):
-        pass
+        response = self.client.get(
+            self.URL_ENQUETE + '1/respostas/',
+            None, format='json')
 
-    def test_NAO_deve_alterar_resposta_pelo_id_NAO_autenticado(self):
-        pass
+        self.assertEquals(response.status_code, 401)
 
-    def test_NAO_deve_excluir_resposta_pelo_id_NAO_autenticado(self):
-        pass
+    def test_deve_retornar_resposta_pelo_id_NAO_autenticado(self):
+        response, resposta = self.criaResposta()
+
+        response = self.client.get(
+            self.URL_RESPOSTA + '4/',
+            None, format='json')
+
+        self.assertEquals(response.status_code, 401)
+
+    def test_deve_alterar_resposta_pelo_id_NAO_autenticado(self):
+        response, resposta = self.criaResposta()
+
+        update = {"opcao": "Andorinhas brasileiras", "votos": 2}
+
+        response = self.client.put(
+            self.URL_RESPOSTA + '1/',
+            update, format='json')
+
+        update['id'] = 1
+
+        self.assertEquals(response.status_code, 401)
+
+    def test_deve_excluir_resposta_pelo_id_NAO_autenticado(self):
+        response, resposta = self.criaResposta()
+
+        response = self.client.delete(
+            self.URL_RESPOSTA + '1/',
+            None, format='json')
+
+        self.assertEquals(response.status_code, 401)
+
+    def teste_DEVE_adicionar_voto_NAO_autenticado(self):
+        self.client.login(username='testuser', password='testing')
+        response, resposta = self.criaResposta()
+
+        self.client.logout()
+
+        response = self.client.post(
+            self.URL_RESPOSTA + '1/voto/',
+            None, format='json')
+
+        self.assertEquals(response.status_code, 201)
+        self.assertTrue(equalDicts(response.data, {"votos": 1}))
