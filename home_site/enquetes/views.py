@@ -15,6 +15,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 import django_filters.rest_framework
 
+from django.db.models import Sum
+
 from .serializers import *
 
 
@@ -23,7 +25,9 @@ class IndexView(generic.ListView):
     context_object_name = 'ultimas_enquetes'
 
     def get_queryset(self):
-        return Enquete.objects.order_by('-texto')
+        return Enquete.objects.filter(ativa=True).annotate(
+            votos=Sum('respostas__votos')
+        )
 
 
 class DetalheView(generic.DetailView):

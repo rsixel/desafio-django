@@ -1,9 +1,68 @@
-{% if ultimas_enquetes %}
-    <ul>
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> {% if ultimas_enquetes %} {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+
+{% load custom_tags %}
+
+
+<ul>
     {% for enquete in ultimas_enquetes %}
-        <li><a href="{% url 'enquetes:detalhe' enquete.id %}">{{ enquete.texto }}</a></li>
+
+    <div class="span6">
+        {% comment %}
+        <li>
+            <a href="{% url 'enquetes:detalhe' enquete.id %}">{{ enquete.texto }}</a>
+        </li> {% endcomment %}
+
+        <form action="{% url 'enquetes:votar' enquete.id %}" method="post">
+            {% csrf_token %}
+            <h5>{{ enquete.texto }}{{enquete.votos}}</h5>
+            {% for resposta in enquete.respostas.all %}
+
+
+            <label for="resposta{{ forloop.counter }}">
+                <strong>{{ resposta.opcao }}</strong>
+            </label>
+            <br />
+            <input type="radio" name="resposta" id="resposta{{ forloop.counter }}" value="{{ resposta.id }}" />
+
+            <span class="pull-right">{{resposta.votos}}</span>
+
+            <div class="progress progress-info active">
+                <div class="bar" style="width: {% percentual resposta.votos enquete.votos %}%;"></div>
+            </div>
+
+            {% comment %}
+            <strong>Mac</strong>
+            <span class="pull-right">40%</span>
+            <div class="progress progress-info active">
+                <div class="bar" style="width: 40%;"></div>
+            </div>
+            <strong>iPad/iPhone</strong>
+            <span class="pull-right">10%</span>
+            <div class="progress progress-striped active">
+                <div class="bar" style="width: 10%;"></div>
+            </div>
+            <strong>Android</strong>
+            <span class="pull-right">5%</span>
+            <div class="progress progress-success active">
+                <div class="bar" style="width: 5%;"></div>
+            </div>
+            <strong>Others</strong>
+            <span class="pull-right">15%</span>
+            <div class="progress progress-warning active">
+                <div class="bar" style="width: 15%;"></div>
+            </div> {% endcomment %} {% endfor %}
+            <p>
+                <input class="btn btn-large btn-success" type="submit" value="Votar"/>
+            </p>
+    </div>
+
+
     {% endfor %}
-    </ul>
+    </form>
+</ul>
 {% else %}
-    <p>Não há enquetes publicadas.</p>
+<p>Não há enquetes publicadas.</p>
 {% endif %}

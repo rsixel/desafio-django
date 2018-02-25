@@ -69,7 +69,12 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'custom_tags': 'enquetes.templatetags.custom_tags',
+
+            }
         },
+
     },
 ]
 
@@ -136,6 +141,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/var/www/static/',
+]
 
 # The code bellow was added for the Django Rest Framework
 # Without the CORS it works thru $curl or browseable API but not thru
