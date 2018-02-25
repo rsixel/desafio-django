@@ -14,4 +14,7 @@ class EnqueteAdmin(admin.ModelAdmin):
         RespostaInline
     ]
 
+    list_filter = ('ativa',)
+    search_fields = ('texto',)
+
 admin.site.register(Enquete, EnqueteAdmin)
