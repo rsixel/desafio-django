@@ -44,12 +44,9 @@ def votar(request, enquete_id):
 
     else:
         # TODO : Fila de votos
-        resposta_selecionada.votos += 1
-        resposta_selecionada.save()
-
+        Resposta.votar(resposta_selecionada.id)
         messages.info(request, "Obrigado pelo voto!")
         return HttpResponseRedirect(reverse('enquetes:index'))
-
 
         return HttpResponseRedirect(
             reverse('enquetes:index'))
@@ -100,10 +97,7 @@ class VotoViewSet(viewsets.GenericViewSet):
 
     def create(self, request, resposta_pk):
         try:
-            resposta = Resposta.objects.get(pk=resposta_pk)
-            resposta.votos += 1
-
-            resposta.save()
+            resposta = Resposta.votar(resposta_pk)
 
             data = {"votos": resposta.votos}
             headers = {}
