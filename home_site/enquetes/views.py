@@ -4,7 +4,7 @@ from django.template import loader
 from django.urls import reverse
 from django.views import generic
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.contrib import messages
 
 from .models import Enquete, Resposta
 
@@ -30,36 +30,29 @@ class IndexView(generic.ListView):
         )
 
 
-class DetalheView(generic.DetailView):
-    model = Enquete
-    template_name = 'enquetes/detalhe.html'
-
-
-class ResultadoView(generic.DetailView):
-    model = Enquete
-    template_name = 'enquetes/resultado.html'
-
-
 def votar(request, enquete_id):
     enquete = get_object_or_404(Enquete, pk=enquete_id)
 
     try:
         resposta = request.POST['resposta']
-        resposta_selecionada = enquete.resposta_set.get(
+        resposta_selecionada = enquete.respostas.get(
             pk=resposta)
     except (KeyError):
 
-        return render(request, 'enquetes/detalhe.html', {
-            'enquete': enquete,
-            'error_message': "Você não selecionou nenhuma das opções.",
-        })
+        messages.error(request, "Você não selecionou nenhuma das opções.")
+        return HttpResponseRedirect(reverse('enquetes:index'))
+
     else:
         # TODO : Fila de votos
         resposta_selecionada.votos += 1
         resposta_selecionada.save()
 
+        messages.info(request, "Obrigado pelo voto!")
+        return HttpResponseRedirect(reverse('enquetes:index'))
+
+
         return HttpResponseRedirect(
-            reverse('enquetes:resultado', args=(enquete.id,)))
+            reverse('enquetes:index'))
 
 
 # REST
