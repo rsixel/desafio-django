@@ -142,3 +142,48 @@ Foram utilizados :
         # sudo pip install pipreqs
 - [Guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
 - No frontend foi utilizado Bootstrap versão 4.0. 
+
+## Instruções para instalar
+
+- Clone o projeto do Github no local desejado:
+
+`# git clone https://github.com/rsixel/desafio-django`
+
+- Vá para o diretório raiz do projeto e diretório principal do projeto e instale os requisitos do Python:
+
+`# sudo -H pip install -r requirements.txt`
+
+*Obs: pode ser que no seu ambiente baste executar `pip install -r requirements.txt`* 
+
+- Selecione o diretório do *home_site*:
+
+`# cd home_site`
+
+- Execute o comando para testar os endpoint:
+
+`# python3 manage.py test`
+
+Deverá ver o seguinte resultado:
+
+``` Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+......................
+----------------------------------------------------------------------
+Ran 22 tests in 2.978s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+- Execute o comando para executar o projeto:
+
+`# python3 manage.py runserver`
+
+
+- Acesse com o browser o administrador em http://localhost:8000/admin. Será possível clicar em Enquete e visualizar:
+     - As opções de filtrar enquetes ativas ou inativas na barra direita;
+     - Excluir todas as enquetes;
+     - Criar novas enquetes;
+     - Buscar enquetes.
+
+- Após cadastrar a as enquetes acesse http://localhost:8000/enquetes 

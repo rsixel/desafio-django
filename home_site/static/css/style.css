@@ -1,6 +1,7 @@
 * {
   color : #43464f;  
   font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
 }
 ul {
     list-style: none;
@@ -9,16 +10,15 @@ li {
     display: inline-block;
     margin-right: 15px;
 }
-input[type="radio"] {
-    visibility:hidden;
-}
+
 label {
     cursor: pointer;
 }
-input:checked + label {
-    background: red;
-}
+
 
 .resposta {
     color : #63666f;  
 }
+
+
+  
