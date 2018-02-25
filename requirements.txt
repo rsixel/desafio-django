@@ -1,7 +1,8 @@
-drf_nested_routers==0.90.2
-requests==2.18.1
 django_filter==1.1.0
 Django==2.0.2
+requests==2.18.1
+drf_nested_routers==0.90.2
 django_filters==0.2.1
 djangorestframework==3.7.7
-
+celery==4.1.0
+django-cors-headers=2.1.0

@@ -142,8 +142,20 @@ Foram utilizados :
         # sudo pip install pipreqs
 - [Guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
 - No frontend foi utilizado Bootstrap versão 4.0. 
+- Ao invés do bonus proposto foi feita a integração com servidor de fila via Celery 4.1.0. Esse recurso é muito mais robusto pois não represa votos a serem computados, aumentando a demanda de memória, e nem faz com que a cada 1 minuto o banco seja soterrado por requisições relacionados ao flush.
 
-## Instruções para instalar
+Foi escolhido utilizar o RabittMQ para garantir assincronismo, integridade, e alta-disponibilidade mas para o Celery essa é apenas uma das escolhas. Para enquetes mais recreativas onde pode haver um grande pico de acessos durante um spot na TV, pode ser usado o Redis em memória que pode ter perda em eventual *crash*. Embora isso possa ocorrer o desempenho teoricamente seria maior, por ser em memória.
+
+## Instruções para instalar e executar
+
+### Pré requisitos
+
+
+- Deve ser instalado o RabbitMQ como backend para o Celery. Ele rodará como `daemon`. O comando está conforme abaixo:
+
+`# sudo apt-get install rabbitmq-server`
+
+### Instalando a aplicação 
 
 - Clone o projeto do Github no local desejado:
 
@@ -174,6 +186,16 @@ Ran 22 tests in 2.978s
 OK
 Destroying test database for alias 'default'...
 ```
+
+### Executando a aplicação
+
+Uma vez na pasta  `home_site` do projeto, devem ser executados os seguintes comandos:
+
+- Executando o *worker* do Celery:
+
+`# celery -A home_site worker -l info`
+
+Esse passo é para demonstração do projeto mas pode ser configurado um *daemon* caso o projeto vá para produção.
 
 - Execute o comando para executar o projeto:
 

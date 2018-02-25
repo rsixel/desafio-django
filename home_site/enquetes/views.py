@@ -18,6 +18,7 @@ import django_filters.rest_framework
 from django.db.models import Sum
 
 from .serializers import *
+from .tasks import *
 
 
 class IndexView(generic.ListView):
@@ -43,8 +44,8 @@ def votar(request, enquete_id):
         return HttpResponseRedirect(reverse('enquetes:index'))
 
     else:
-        # TODO : Fila de votos
-        Resposta.votar(resposta_selecionada.id)
+        resposta = task_votar.delay(resposta_selecionada.id)
+
         messages.info(request, "Obrigado pelo voto!")
         return HttpResponseRedirect(reverse('enquetes:index'))
 
@@ -97,12 +98,13 @@ class VotoViewSet(viewsets.GenericViewSet):
 
     def create(self, request, resposta_pk):
         try:
-            resposta = Resposta.votar(resposta_pk)
+            resposta = task_votar.delay(resposta_pk)
 
-            data = {"votos": resposta.votos}
+            # Votação assíncrona. Não tem mais como retornar os votos
+            # data = {"votos": resposta.votos}
             headers = {}
 
-            return response.Response(data,
+            return response.Response({},
                                      status=status.HTTP_201_CREATED,
                                      headers=headers)
         except ObjectDoesNotExist:
