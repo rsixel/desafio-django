@@ -1,68 +1,82 @@
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> {% if ultimas_enquetes %} {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-
-{% load custom_tags %}
+{% comment %}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> {% endcomment %}
 
 
-<ul>
-    {% for enquete in ultimas_enquetes %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous" /> {% if ultimas_enquetes %} {% load static %}
 
-    <div class="span6">
-        {% comment %}
-        <li>
-            <a href="{% url 'enquetes:detalhe' enquete.id %}">{{ enquete.texto }}</a>
-        </li> {% endcomment %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" /> {% load custom_tags %}
+<div class="jumbotron" style="background-color: #2d7502;color: #328b00;">
+    <div style="display:flex;padding : 0.5em;">
 
-        <form action="{% url 'enquetes:votar' enquete.id %}" method="post">
-            {% csrf_token %}
-            <h5>{{ enquete.texto }}{{enquete.votos}}</h5>
-            {% for resposta in enquete.respostas.all %}
-
-
-            <label for="resposta{{ forloop.counter }}">
-                <strong>{{ resposta.opcao }}</strong>
-            </label>
-            <br />
-            <input type="radio" name="resposta" id="resposta{{ forloop.counter }}" value="{{ resposta.id }}" />
-
-            <span class="pull-right">{{resposta.votos}}</span>
-
-            <div class="progress progress-info active">
-                <div class="bar" style="width: {% percentual resposta.votos enquete.votos %}%;"></div>
-            </div>
-
-            {% comment %}
-            <strong>Mac</strong>
-            <span class="pull-right">40%</span>
-            <div class="progress progress-info active">
-                <div class="bar" style="width: 40%;"></div>
-            </div>
-            <strong>iPad/iPhone</strong>
-            <span class="pull-right">10%</span>
-            <div class="progress progress-striped active">
-                <div class="bar" style="width: 10%;"></div>
-            </div>
-            <strong>Android</strong>
-            <span class="pull-right">5%</span>
-            <div class="progress progress-success active">
-                <div class="bar" style="width: 5%;"></div>
-            </div>
-            <strong>Others</strong>
-            <span class="pull-right">15%</span>
-            <div class="progress progress-warning active">
-                <div class="bar" style="width: 15%;"></div>
-            </div> {% endcomment %} {% endfor %}
-            <p>
-                <input class="btn btn-large btn-success" type="submit" value="Votar"/>
-            </p>
+        <img style="height: 5em;margin-top: 1.2em;" src={% static 'images/logo-ge.svg' %} class="logo" alt="logo">
+        <span style="background-color: #2d7502;color: #42c003; font-size: 3em">nquetes</span>
     </div>
 
+    <p style="color: #428b00;"> Este é a resposta ao
+        <a href="https://github.com/globoesporte/desafio-django">
+            <strong style="color: #62ab00;">desafio</strong>
+        </a> do
+        <a href="http://www.globoesporte.com">
+            <strong style="color: #62ab00;">globoesporte.com</strong>
+        </a>
+        por
+        <a href="http://github.com/rsixel/desafio-django">
+            <strong style="color: #62ab00;">Ricardo Sixel.</strong>
+        </a>
+    </p>
 
-    {% endfor %}
-    </form>
-</ul>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for enquete in ultimas_enquetes %}
+        <div class="col-md-4">
+
+
+            <form action="{% url 'enquetes:votar' enquete.id %}" method="post">
+                {% csrf_token %}
+
+                <div class="card ">
+                    <div class="card-header" style="background-color: #D0D0D0">
+                        <h3 class="card-title">{{ enquete.texto }}</h3>
+                    </div>
+                    <div class="card-body">
+
+                        {% for resposta in enquete.respostas.all %}
+
+
+                        <label for="resposta{{ forloop.counter }}">
+                            <strong class="resposta">{{ resposta.opcao }}</strong>
+                        </label>
+                        <br />
+                        <input type="radio" name="resposta" id="resposta{{ forloop.counter }}" value="{{ resposta.id }}" />
+
+                        <span class="pull-right">{{resposta.votos}}</span>
+
+                        <div class="progress ">
+                            <div class="progress-bar bg-success" style="width: {% percentual resposta.votos enquete.votos %}%;"></div>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer" >
+                        <input class="btn btn-large btn-success" type="submit" value="Votar" />
+                        <span class="float-right align-middle">{{enquete.votos}} votos</span>
+                    </div>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+
+</form>
+
 {% else %}
-<p>Não há enquetes publicadas.</p>
+<h3>Não há enquetes publicadas.</h3>
 {% endif %}

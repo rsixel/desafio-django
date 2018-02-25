@@ -132,10 +132,13 @@ Body de retorno (retorna as Respostas aninhadas):
 
 ## Passos utilizados na solução
 
-- Foi utilizado Ubuntu 17 x64  e VS Code 1.20;
+Foram utilizados :
+
+- Ubuntu 17 x64  e VS Code 1.20;
 - O *Python 3.6* já vem como default;
 - Instalei o PIP, utilizando o método descrito [aqui](https://askubuntu.com/questions/967886/unable-to-install-python-pip-in-ubuntu-17-10;);
-- Foi utilizado o *pyreqs* para gerar automaticamente o `requirements.txt`. Foi instalado usando :
+- *Pyreqs* para gerar automaticamente o `requirements.txt`. Foi instalado usando :
 
         # sudo pip install pipreqs
-- Foi utilizado o [guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
+- [Guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
+- No frontend foi utilizado Bootstrap versão 4.0. 
