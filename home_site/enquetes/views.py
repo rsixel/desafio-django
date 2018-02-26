@@ -44,16 +44,19 @@ def votar(request, enquete_id):
         return HttpResponseRedirect(reverse('enquetes:index'))
 
     else:
-        resposta = task_votar.delay(resposta_selecionada.id)
+        try:
+            resposta = task_votar.delay(resposta_selecionada.id)
 
-        messages.info(request, "Obrigado pelo voto!")
-        return HttpResponseRedirect(reverse('enquetes:index'))
+            messages.info(request, "Obrigado pelo voto!")
+            return HttpResponseRedirect(reverse('enquetes:index'))
 
-        return HttpResponseRedirect(
-            reverse('enquetes:index'))
-
+        except(Exception):
+            messages.error(request, "Problemas ao computar seu voto!")
+            return HttpResponseRedirect(reverse('enquetes:index'))
 
 # REST
+
+
 class EnqueteViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Enquetes to be viewed or edited.
@@ -107,7 +110,7 @@ class VotoViewSet(viewsets.GenericViewSet):
             return response.Response({},
                                      status=status.HTTP_201_CREATED,
                                      headers=headers)
-        except ObjectDoesNotExist:
+        except Exception:
             return response.Response({},
-                                     status=status.HTTP_404_NOT_FOUND,
-                                     headers={})
+                      status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                      headers={})
