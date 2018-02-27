@@ -103,7 +103,7 @@ class VotoViewSet(viewsets.GenericViewSet):
     def create(self, request, resposta_pk):
         try:
             resposta = task_votar.apply_async(
-                [resposta_selecionada.id], connect_timeout=3)
+                [resposta_pk], connect_timeout=10)
 
             # Votação assíncrona. Não tem mais como retornar os votos
             # data = {"votos": resposta.votos}
@@ -112,7 +112,7 @@ class VotoViewSet(viewsets.GenericViewSet):
             return response.Response({},
                                      status=status.HTTP_201_CREATED,
                                      headers=headers)
-        except Exception:
+        except Exception as ex:
             return response.Response({},
                                      status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                                      headers={})

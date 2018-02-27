@@ -172,6 +172,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Baseado em https://github.com/nayanchandni/docker-django-celery-rabbitmq
 
+
 ###########
 # RABBITMQ
 
@@ -183,30 +184,21 @@ if RABBIT_HOSTNAME.startswith('tcp://'):
 BROKER_URL = os.environ.get('BROKER_URL',
                             '')
 if not BROKER_URL:
-    BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
-        user=os.environ.get('RABBIT_ENV_USER', 'admin'),
-        password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'mypass'),
-        hostname=RABBIT_HOSTNAME,
-        vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
+    CELERY_BROKER_URL = BROKER_URL
 
-# We don't want to have dead connections stored on rabbitmq, so we have
-# to negotiate using heartbeats
-BROKER_HEARTBEAT = '?heartbeat=60'
-if not BROKER_URL.endswith(BROKER_HEARTBEAT):
-    BROKER_URL += BROKER_HEARTBEAT
 
-BROKER_POOL_LIMIT = 1
-BROKER_CONNECTION_TIMEOUT = 10
+CELERY_BROKER_POOL_LIMIT = 1
+CELERY_BROKER_CONNECTION_TIMEOUT = 10
 
 
 #######################
 # Celery configuration
 
 # configure queues, currently we have only one
-CELERY_DEFAULT_QUEUE = 'default'
-CELERY_QUEUES = (
-    Queue('default', Exchange('default'), routing_key='default'),
-)
+# CELERY_DEFAULT_QUEUE = 'default'
+# CELERY_QUEUES = (
+#     Queue('default', Exchange('default'), routing_key='default'),
+# )
 
 # Sensible settings for celery
 CELERY_ALWAYS_EAGER = False
@@ -226,10 +218,10 @@ CELERY_TASK_RESULT_EXPIRES = 600
 CELERY_TASK_SERIALIZER = "json"
 CELERY_ACCEPT_CONTENT = ['application/json']
 
-CELERYD_HIJACK_ROOT_LOGGER = False
-CELERYD_PREFETCH_MULTIPLIER = 1
-CELERYD_MAX_TASKS_PER_CHILD = 1000
+CELERY_HIJACK_ROOT_LOGGER = False
+CELERY_PREFETCH_MULTIPLIER = 1
+CELERY_MAX_TASKS_PER_CHILD = 1000
 
 # Add a one-minute timeout to all Celery tasks.
-CELERYD_TASK_SOFT_TIME_LIMIT = 10
-BROKER_CONNECTION_TIMEOUT = 20
+CELERY_TASK_SOFT_TIME_LIMIT = 10
+CELERY_BROKER_CONNECTION_TIMEOUT = 20

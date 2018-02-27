@@ -52,8 +52,7 @@ Body do post:
 
 Exemplo URL:
 
-`http://localhost:8000/enquete/api/enquete`
-`http://localhost:8000/enquete/api/enquete?ativa=true`
+`http://localhost:8000/enquetes/api/enquete`
 
 
 Body de retorno (retorna as Respostas aninhadas):
@@ -109,7 +108,7 @@ Body de retorno (retorna as Respostas aninhadas):
 
 Exemplo URL:
 
-`http://localhost:8000/enquete/api/enquete/1/repostas`
+`http://localhost:8000/enquetes/api/enquete/1/repostas`
 
 Body de retorno (retorna as Respostas aninhadas):
 
@@ -146,10 +145,10 @@ Foram utilizados :
 
 Foi escolhido utilizar o RabittMQ para garantir assincronismo, integridade, e alta-disponibilidade mas para o Celery essa é apenas uma das escolhas. Para enquetes mais recreativas onde pode haver um grande pico de acessos durante um spot na TV, pode ser usado o Redis em memória que pode ter perda em eventual *crash*. Embora isso possa ocorrer o desempenho teoricamente seria maior, por ser em memória.
 
-## Instruções para instalar e executar
+# Instruções para instalar e executar
 
+## Executando Localmente
 ### Pré requisitos
-
 
 - Deve ser instalado o RabbitMQ como backend para o Celery. Ele rodará como `daemon`. O comando está conforme abaixo:
 
@@ -165,11 +164,30 @@ Foi escolhido utilizar o RabittMQ para garantir assincronismo, integridade, e al
 
 `# sudo -H pip install -r requirements.txt`
 
-*Obs: pode ser que no seu ambiente baste executar `pip install -r requirements.txt`* 
+*Obs: pode ser que no seu ambiente baste executar  `pip install -r requirements.txt`* 
 
 - Selecione o diretório do *home_site*:
 
 `# cd home_site`
+
+
+### Executando a aplicação
+
+Uma vez na pasta  `home_site` do projeto, devem ser executados os seguintes comandos:
+
+- Executando o *worker* do Celery:
+
+`# celery -A home_site worker -l info &`
+
+Esse passo é para demonstração do projeto mas pode ser configurado um *daemon* caso o projeto vá para produção.
+
+- Execute o comando para executar o projeto:
+
+`# python3 manage.py runserver`
+
+## Executando o teste
+
+Atenção !!!! Para executar o teste de votação o *Celery* deve estar rodando.
 
 - Execute o comando para testar os endpoint:
 
@@ -187,20 +205,23 @@ OK
 Destroying test database for alias 'default'...
 ```
 
-### Executando a aplicação
 
-Uma vez na pasta  `home_site` do projeto, devem ser executados os seguintes comandos:
+### Executando a aplicação em containers DOCKER
 
-- Executando o *worker* do Celery:
+A aplicação executa em 3 containers:
+- web - Aplicação Django
+- worker - Woker Celery
+- rabbit - RabbitMQ como backend end de filas
 
-`# celery -A home_site worker -l info`
+Para executar basta instalar o *docker-compose*. Instruçoes [aqui](https://docs.docker.com/compose/install/).
 
-Esse passo é para demonstração do projeto mas pode ser configurado um *daemon* caso o projeto vá para produção.
+Após a instalação selecione o raíz do projeto e execute o comando:
 
-- Execute o comando para executar o projeto:
+`# sudo docker-compose up --build`
 
-`# python3 manage.py runserver`
+Após a execução os 3 containers Docker executam e a aplicação já pode ser acessada. 
 
+## Acesando a aplicação 
 
 - Acesse com o browser o administrador em http://localhost:8000/admin. Será possível clicar em Enquete e visualizar:
      - As opções de filtrar enquetes ativas ou inativas na barra direita;
@@ -209,3 +230,5 @@ Esse passo é para demonstração do projeto mas pode ser configurado um *daemon
      - Buscar enquetes.
 
 - Após cadastrar a as enquetes acesse http://localhost:8000/enquetes 
+
+ 
