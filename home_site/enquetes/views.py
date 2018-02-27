@@ -45,7 +45,8 @@ def votar(request, enquete_id):
 
     else:
         try:
-            resposta = task_votar.delay(resposta_selecionada.id)
+            resposta = task_votar.apply_async(
+                [resposta_selecionada.id], connect_timeout=3)
 
             messages.info(request, "Obrigado pelo voto!")
             return HttpResponseRedirect(reverse('enquetes:index'))
@@ -101,7 +102,8 @@ class VotoViewSet(viewsets.GenericViewSet):
 
     def create(self, request, resposta_pk):
         try:
-            resposta = task_votar.delay(resposta_pk)
+            resposta = task_votar.apply_async(
+                [resposta_selecionada.id], connect_timeout=3)
 
             # Votação assíncrona. Não tem mais como retornar os votos
             # data = {"votos": resposta.votos}
@@ -112,5 +114,5 @@ class VotoViewSet(viewsets.GenericViewSet):
                                      headers=headers)
         except Exception:
             return response.Response({},
-                      status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                      headers={})
+                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                     headers={})

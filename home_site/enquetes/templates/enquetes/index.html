@@ -37,19 +37,24 @@
 </header>
 
 <script>
+
     function showModal() {
         $('#mensagemModal').modal({
             keyboard: false
         })
     }
 
-    setTimeout(function(){ location.reload(); }, 10000);
+    var refreshTimeout = none;
+
+    function resetTimeout(){
+        refreshTimeout = setTimeout(function(){ location.reload(); }, 10000);
+    }
 
 </script> 
 
 {% if messages %}
 
-<body onload="showModal()">
+<body onload="showModal();resetTimeout()">
 
     {% for message in messages %}
     
@@ -76,7 +81,7 @@
 
     {% endfor %} {% else %}
 
-    <body>
+    <body onLoad="resetTimeout();">
         {% endif %} {% if ultimas_enquetes %}
         <div class="container">
 
@@ -86,7 +91,7 @@
                 <div class="col-md-4">
 
 
-                    <form action="{% url 'enquetes:votar' enquete.id %}" method="post">
+                    <form action="{% url 'enquetes:votar' enquete.id %}" method="post" onsubmit="clearTimeout(refreshTimeout);">
                         {% csrf_token %}
 
                         <div class="card ">
