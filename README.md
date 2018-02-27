@@ -1,6 +1,6 @@
 # Resposta ao Desafio Python/Django Globoesporte
 
-Esta é a resposta ao [desafio Python/Django](https://github.com/globoesporte/desafio-django) da equipe do (globoesporte.com)[https://github.com/globoesporte].
+Esta é a resposta ao [desafio Python/Django](https://github.com/globoesporte/desafio-django) da equipe do [globoesporte.com](https://github.com/globoesporte).
 
 Sou Ricardo Sixel meu contato é rsixel@gmail.com e pelo [facebook](https://www.facebook.com/rsixel).
 
