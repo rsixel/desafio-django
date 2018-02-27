@@ -231,4 +231,5 @@ Após a execução os 3 containers Docker executam e a aplicação já pode ser 
 
 - Após cadastrar a as enquetes acesse http://localhost:8000/enquetes 
 
- 
+ <br> <br>
+<strong> Obrigado a todos do globoesporte.com. Foi divertido fazer esse projeto e valeu muito pelo aprendizado. Python Rocks !!!!</strong>
