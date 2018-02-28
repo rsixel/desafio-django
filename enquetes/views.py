@@ -45,8 +45,7 @@ def votar(request, enquete_id):
 
     else:
         try:
-            resposta = task_votar.apply_async(
-                [resposta_selecionada.id], connect_timeout=3)
+            resposta = task_votar.delay(resposta_selecionada.id)
 
             messages.info(request, "Obrigado pelo voto!")
             return HttpResponseRedirect(reverse('enquetes:index'))
@@ -102,8 +101,7 @@ class VotoViewSet(viewsets.GenericViewSet):
 
     def create(self, request, resposta_pk):
         try:
-            resposta = task_votar.apply_async(
-                [resposta_pk], connect_timeout=10)
+            resposta = task_votar.delay(resposta_pk)
 
             # Votação assíncrona. Não tem mais como retornar os votos
             # data = {"votos": resposta.votos}

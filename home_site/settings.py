@@ -26,12 +26,19 @@ SECRET_KEY = '_#22@3yn%xl3ob+qh6q0g2ujyr&gy0oo0gbq^bnb&!lzzf60m1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Heroku deployment detection
+ON_HEROKU = 'ON_HEROKU' in os.environ
+
 ALLOWED_HOSTS = []
+
+if ON_HEROKU:
+    ALLOWED_HOSTS = ['desafiodjango.herokuapp.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'home_site',
     'enquetes.apps.EnquetesConfig',
     'django.contrib.admin',  # ativando admin
     'django.contrib.auth',
@@ -141,11 +148,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+if ON_HEROKU:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
 ]
 
 # The code bellow was added for the Django Rest Framework
@@ -175,30 +183,24 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 ###########
 # RABBITMQ
-
-RABBIT_HOSTNAME = os.environ.get('RABBIT_PORT_5672_TCP', 'rabbit')
-
-if RABBIT_HOSTNAME.startswith('tcp://'):
-    RABBIT_HOSTNAME = RABBIT_HOSTNAME.split('//')[1]
-
 BROKER_URL = os.environ.get('BROKER_URL',
                             '')
-if not BROKER_URL:
+if 'BROKER_URL' in os.environ:
     CELERY_BROKER_URL = BROKER_URL
-
+    print(BROKER_URL)
 
 CELERY_BROKER_POOL_LIMIT = 1
-CELERY_BROKER_CONNECTION_TIMEOUT = 10
+CELERY_BROKER_CONNECTION_TIMEOUT = 600
 
 
 #######################
 # Celery configuration
 
 # configure queues, currently we have only one
-# CELERY_DEFAULT_QUEUE = 'default'
-# CELERY_QUEUES = (
-#     Queue('default', Exchange('default'), routing_key='default'),
-# )
+CELERY_DEFAULT_QUEUE = 'default'
+CELERY_QUEUES = (
+    Queue('default', Exchange('default'), routing_key='default'),
+)
 
 # Sensible settings for celery
 CELERY_ALWAYS_EAGER = False
@@ -225,3 +227,7 @@ CELERY_MAX_TASKS_PER_CHILD = 1000
 # Add a one-minute timeout to all Celery tasks.
 CELERY_TASK_SOFT_TIME_LIMIT = 10
 CELERY_BROKER_CONNECTION_TIMEOUT = 20
+
+
+if ON_HEROKU:
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

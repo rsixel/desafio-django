@@ -1,0 +1,1 @@
+worker: celery -A home_site worker -l info

@@ -173,17 +173,9 @@ Foi escolhido utilizar o RabittMQ para garantir assincronismo, integridade, e al
 
 ### Executando a aplicação
 
-Uma vez na pasta  `home_site` do projeto, devem ser executados os seguintes comandos:
+Uma vez na pasta raíz do projeto, devem ser executados os seguintes comandos:
 
-- Executando o *worker* do Celery:
-
-`# celery -A home_site worker -l info &`
-
-Esse passo é para demonstração do projeto mas pode ser configurado um *daemon* caso o projeto vá para produção.
-
-- Execute o comando para executar o projeto:
-
-`# python3 manage.py runserver`
+`# sh ./start_local.sh`
 
 ## Executando o teste
 
@@ -217,11 +209,45 @@ Para executar basta instalar o *docker-compose*. Instruçoes [aqui](https://docs
 
 Após a instalação selecione o raíz do projeto e execute o comando:
 
-`# sudo docker-compose up --build`
+`# sh ./start_docker.sh`
 
+Pode ser pedida a senha para o *sudo*.
 Após a execução os 3 containers Docker executam e a aplicação já pode ser acessada. 
 
-## Acesando a aplicação 
+### Instalando a aplicação no HEROKU
+
+- Deve-se configurar o Heroku tool belt ou heroku CLI  no sistema. As [instruções](https://devcenter.heroku.com/articles/heroku-cli) podem ser lidas no site do Heroku. 
+
+- Para instalar a aplicação deve-se criar a conta, ativá-la. Após a  e executar o login:
+
+`# heroku login`
+
+- Deve-se criar a aplicação :
+
+`# heroku apps:create -a <nome_app> `
+
+Lamento mas [desafiodjango](https://desafiodjango.herokuapp.com/enquetes/) já estou usando :)
+
+- Deve ser criado um add-on com RabbitMQ:
+
+`$ heroku addons:add cloudamqp:lemur -a <nome_app>`
+
+- Deve-se configurar as variáveis de ambiente necessárias para configurar o borker:
+
+`# heroku config:set BROKER_URL=<AMQP URL conforme administrador do Heroku>`  
+`# heroku config:set ON_HEROKU=1`  
+
+
+- Após isso basta executar os respectivos scripts:
+
+`# sh ./heroku_deploy_celery.sh`
+
+Aguardar o término:
+
+`# sh ./heroku_deploy_django.sh`
+
+
+## Acessando a aplicação localmente e executando o docker.
 
 - Acesse com o browser o administrador em http://localhost:8000/admin. Será possível clicar em Enquete e visualizar:
      - As opções de filtrar enquetes ativas ou inativas na barra direita;
@@ -231,5 +257,19 @@ Após a execução os 3 containers Docker executam e a aplicação já pode ser 
 
 - Após cadastrar a as enquetes acesse http://localhost:8000/enquetes 
 
+### Acessando a aplicação no Heroku
+
+Para acessar a enquete, acesse:
+
+https://desafiodjango.herokuapp.com/enquetes/
+
+Para acessar o admin, acesse:
+
+https://desafiodjango.herokuapp.com/admin/
+
+Entre em contato para que eu possa fornecer usuário e senha.
+
  <br> <br>
 <strong> Obrigado a todos do globoesporte.com. Foi divertido fazer esse projeto e valeu muito pelo aprendizado. Python Rocks !!!!</strong>
+
+
