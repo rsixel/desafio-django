@@ -139,7 +139,7 @@ Foram utilizados :
 - *Pyreqs* para gerar automaticamente o `requirements.txt`. Foi instalado usando :
 
         # sudo pip install pipreqs
-- [Guia de Python/Jango](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
+- [Guia de Python/Django](https://globoesporte.gitbooks.io/python-e-django-basico/content/content/posts/primeira-aplicacao-em-django.html) do globoesporte.com para criar o projeto.
 - No frontend foi utilizado Bootstrap versão 4.0. 
 - Ao invés do bonus proposto foi feita a integração com servidor de fila via Celery 4.1.0. Esse recurso é muito mais robusto pois não represa votos a serem computados, aumentando a demanda de memória, e nem faz com que a cada 1 minuto o banco seja soterrado por requisições relacionados ao flush.
 
