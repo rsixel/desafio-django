@@ -216,36 +216,25 @@ Após a execução os 3 containers Docker executam e a aplicação já pode ser 
 
 ### Instalando a aplicação no HEROKU
 
-- Deve-se configurar o Heroku tool belt ou heroku CLI  no sistema. As [instruções](https://devcenter.heroku.com/articles/heroku-cli) podem ser lidas no site do Heroku. 
+- Para instalar a aplicação deve-se criar a conta, ativá-la.
 
-- Para instalar a aplicação deve-se criar a conta, ativá-la. Após a  e executar o login:
-
-`# heroku login`
-
-- Deve-se criar a aplicação :
-
-`# heroku apps:create -a <nome_app> `
+- Deve-se criar a aplicação  e na aba Deploy deve-selecionar o Deployment Method como Github apontando para 
+https://github.com/rsixel/desafio-django .
 
 Lamento mas [desafiodjango](https://desafiodjango.herokuapp.com/enquetes/) já estou usando :)
 
-- Deve ser criado um add-on com RabbitMQ:
 
-`$ heroku addons:add cloudamqp:lemur -a <nome_app>`
-
-- Deve-se configurar as variáveis de ambiente necessárias para configurar o borker:
-
-`# heroku config:set BROKER_URL=<AMQP URL conforme administrador do Heroku>`  
-`# heroku config:set ON_HEROKU=1`  
+- Clicar no botão *Deploy Branch*.
 
 
-- Após isso basta executar os respectivos scripts:
+- Deve ser criado um add-on CloudAMQP 
 
-`# sh ./heroku_deploy_celery.sh`
+- Na aba Settings deve ser configurada a variável de ambiente:
 
-Aguardar o término:
+  - BROKER_URL=<AMQP URL conforme administrador do Heroku>`  
+  - ON_HEROKU=1
 
-`# sh ./heroku_deploy_django.sh`
-
+Basta acessa a aplicação.
 
 ## Acessando a aplicação localmente e executando o docker.
 
