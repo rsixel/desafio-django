@@ -16,5 +16,7 @@ class EnqueteAdmin(admin.ModelAdmin):
 
     list_filter = ('ativa',)
     search_fields = ('texto',)
+    list_display = ('texto', 'ativa')
+
 
 admin.site.register(Enquete, EnqueteAdmin)
