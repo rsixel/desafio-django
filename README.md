@@ -166,11 +166,6 @@ Foi escolhido utilizar o RabittMQ para garantir assincronismo, integridade, e al
 
 *Obs: pode ser que no seu ambiente baste executar  `pip install -r requirements.txt`* 
 
-- Selecione o diretório do *home_site*:
-
-`# cd home_site`
-
-
 ### Executando a aplicação
 
 Uma vez na pasta raíz do projeto, devem ser executados os seguintes comandos:
@@ -179,7 +174,7 @@ Uma vez na pasta raíz do projeto, devem ser executados os seguintes comandos:
 
 ## Executando o teste
 
-Atenção !!!! Para executar o teste de votação o *Celery* deve estar rodando.
+Atenção !!!! Para executar o teste de votação o *Celery* deve estar rodando. Para executá-lo basra rodar o comando `start-local.sh`como acima.
 
 - Execute o comando para testar os endpoint:
 
@@ -201,8 +196,7 @@ Destroying test database for alias 'default'...
 ### Executando a aplicação em containers DOCKER
 
 A aplicação executa em 3 containers:
-- web - Aplicação Django
-- worker - Woker Celery
+- web e worker - - Aplicação Django e Woker Celery
 - rabbit - RabbitMQ como backend end de filas
 
 Para executar basta instalar o *docker-compose*. Instruçoes [aqui](https://docs.docker.com/compose/install/).
@@ -229,7 +223,7 @@ Lamento mas [desafiodjango](https://desafiodjango.herokuapp.com/enquetes/) já e
 
 - Deve ser criado um add-on CloudAMQP 
 
-- Na aba Settings deve ser configurada a variável de ambiente:
+- Na aba *Settings* deve ser configurada as variáveis de ambiente, clicando no botão `Reveal Config Vars`:
 
   - BROKER_URL=<AMQP URL conforme administrador do Heroku>`  
   - ON_HEROKU=1
