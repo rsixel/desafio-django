@@ -164,13 +164,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+STATIC_URL = '/static/'
 if ON_HEROKU:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+else:
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
 
 # The code bellow was added for the Django Rest Framework
 # Without the CORS it works thru $curl or browseable API but not thru
